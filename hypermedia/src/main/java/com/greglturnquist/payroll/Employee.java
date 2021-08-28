@@ -20,6 +20,9 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Version;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Greg Turnquist
@@ -31,9 +34,21 @@ public class Employee {
 	private @Id @GeneratedValue Long id;
 	private String firstName;
 	private String lastName;
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
 	private String description;
 
-	private Employee() {}
+	private @Version @JsonIgnore Long version;
+
+	private Employee() {
+	}
 
 	public Employee(String firstName, String lastName, String description) {
 		this.firstName = firstName;
@@ -43,13 +58,13 @@ public class Employee {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		Employee employee = (Employee) o;
-		return Objects.equals(id, employee.id) &&
-			Objects.equals(firstName, employee.firstName) &&
-			Objects.equals(lastName, employee.lastName) &&
-			Objects.equals(description, employee.description);
+		return Objects.equals(id, employee.id) && Objects.equals(firstName, employee.firstName)
+		        && Objects.equals(lastName, employee.lastName) && Objects.equals(description, employee.description);
 	}
 
 	@Override
@@ -92,12 +107,8 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		return "Employee{" +
-			"id=" + id +
-			", firstName='" + firstName + '\'' +
-			", lastName='" + lastName + '\'' +
-			", description='" + description + '\'' +
-			'}';
+		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", description="
+		        + description + ", version=" + version + "]";
 	}
 }
 // end::code[]
